@@ -4,23 +4,26 @@ services:
         hostname: backend
         build: ./backend/
         environment:
-            POSTGRES_HOST: postgres
-            POSTGRES_USER: postgres
-            POSTGRES_PASSWORD: kavun
+            DB_HOST: invoices_db
+            DB_USER: postgres
+            DB_PASSWORD: kavun
+            DB_NAME: invoices_meta
         ports:
             - 8080:8080
         volumes:
-            - ./backend/:/app/
+            - ./backend/static/:/app/static/
         restart: on-failure
         networks:
             - postgres_net
             - backend_net
 
-    postgres:
-        image: 15.2-alpine3.17
-        hostname: postgres
+    invoices_db:
+        image: postgres:15.2-alpine3.17
+        hostname: invoices_db
         environment:
             POSTGRES_PASSWORD: kavun
+        volumes:
+            - ./database/init_scripts/:/docker-entrypoint-initdb.d/:ro
         restart: on-failure
         networks:
             - postgres_net
