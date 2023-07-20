@@ -1,0 +1,46 @@
+.cameraContainer {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+
+    background-color: var(--color-black);
+    color: var(--color-white);
+}
+
+.topControls {
+    height: 64px;
+    flex-shrink: 0;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    & > .closeButton {
+        display: flex;
+        font-size: var(--font-size-xxl);
+    }
+}
+
+.bottomControls {
+    flex-grow: 1;
+
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+    & > .qrButton {
+        display: flex;
+        font-size: 64px;
+    }
+}
+
+.hint {
+    background-color: var(--color-white);
+    color: var(--color-dark-grey);
+    font-size: var(--font-size-lg);
+    font-weight: bold;
+    border-radius: 8px;
+}
