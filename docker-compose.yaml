@@ -1,0 +1,58 @@
+version: "3.1"
+
+services:
+  mongo:
+    hostname: mongo
+    image: mongo:7.0.0-rc8
+    command: mongod --port ${MONGO_PORT}
+    restart: always
+    volumes:
+      - ./data/mongo:/data/db
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_PASSWORD}
+    ports:
+      - 27017:${MONGO_PORT}
+    networks:
+      - mongo_net
+
+  backend:
+    env_file:
+      - backend.env
+    environment:
+      - DB_HOST=mongo
+      - DB_PORT=${MONGO_PORT}
+      - DB_USERNAME=${MONGO_USERNAME}
+      - DB_PASSWORD=${MONGO_PASSWORD}
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    restart: on-failure
+    volumes:
+      - ./data/images:/app/public
+      - ./ssl:/app/ssl
+    depends_on:
+      - mongo
+    ports:
+      - ${EXTERNAL_API_PORT}:8080
+    networks:
+      - mongo_net
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        - INVOICE_DATA_API_URL=${INVOICE_DATA_API_URL}
+        - INVOICE_DATA_API_TOKEN=${INVOICE_DATA_API_TOKEN}
+        - BACKEND_URL=https://${SERVER_HOST}:${EXTERNAL_API_PORT}
+    restart: on-failure
+    volumes:
+      - ./ssl:/etc/nginx/ssl
+      - ./nginx:/etc/nginx/conf.d
+    ports:
+      - ${EXTERNAL_FRONTEND_PORT}:443
+
+networks:
+  mongo_net:
+    driver: bridge
