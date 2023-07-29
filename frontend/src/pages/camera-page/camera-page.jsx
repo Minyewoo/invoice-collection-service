@@ -19,9 +19,11 @@ function CameraPage() {
                 canvas.height = videoHeight;
                 canvas.getContext('2d').drawImage(video, 0, 0);
 
-                const data = canvas.toDataURL('image/png');
-
-                history.push(photoResultPath, { photo: data });
+                canvas.toBlob((blob) => {
+                    history.push(photoResultPath, {
+                        photo: blob,
+                    });
+                }, 'image/png');
             }}
         />
     );

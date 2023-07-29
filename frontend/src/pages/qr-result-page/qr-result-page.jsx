@@ -8,18 +8,18 @@ import Results from '@/components/results';
 import Button from '@/components/UI/button';
 
 function QrResultPage() {
-    const { qrData } = useParams();
+    const { qrraw } = useParams();
     const { data, error, isLoading } = useGetInvoiceDataQuery({
-        qrraw: qrData,
+        qrraw,
     });
     const history = useHistory();
     const dispatch = useDispatch();
 
     return (
         <MainLayout>
-            {error && <p>{JSON.stringify(error, null, 2)}</p>}
+            {error && <p>{JSON.stringify(error, null, 4)}</p>}
             {isLoading && !error && <p>Loading...</p>}
-            {!isLoading && (
+            {!isLoading && !error && (
                 <Collapsible className="mb-4" label="Receipt">
                     <Results data={data} />
                 </Collapsible>
@@ -28,9 +28,11 @@ function QrResultPage() {
                 type="outlined"
                 className="mt-4"
                 onClick={() => {
-                    if (isLoading || error) return;
-
-                    dispatch(setQrText(qrData));
+                    if (isLoading || error) {
+                        history.push('/');
+                        return;
+                    }
+                    dispatch(setQrText(qrraw));
                     dispatch(setQrResult(data));
                     history.push('/');
                 }}

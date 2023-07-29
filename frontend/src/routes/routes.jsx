@@ -7,8 +7,8 @@ import PhotoResultPage from '@/pages/photo-result-page';
 
 export const mainPath = '/';
 export const qrScannerPath = '/scan';
-export const qrResultsPath = '/results/:qrData';
-export const buildQrResultsPath = (qrData) => `/results/${qrData}`;
+export const qrResultsPath = '/results/:qrraw';
+export const buildQrResultsPath = (qrraw) => `/results/${qrraw}`;
 export const cameraPath = '/camera';
 export const photoResultPath = '/taken-photo';
 
