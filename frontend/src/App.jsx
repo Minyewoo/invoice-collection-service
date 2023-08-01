@@ -5,7 +5,7 @@ import Routes from '@/routes';
 
 function App() {
     return (
-        <Router>
+        <Router basename={import.meta.env.VITE_BASE_LOCATION}>
             <Provider store={store}>
                 <Routes />
             </Provider>
