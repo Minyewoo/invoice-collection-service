@@ -17,6 +17,7 @@ services:
       - mongo_net
 
   backend:
+    hostname: backend
     env_file:
       - backend.env
     environment:
@@ -37,8 +38,10 @@ services:
       - ${EXTERNAL_API_PORT}:8080
     networks:
       - mongo_net
+      - nginx_net
 
   frontend:
+    hostname: frontend
     build:
       context: ./frontend
       dockerfile: Dockerfile
@@ -48,11 +51,31 @@ services:
         - BACKEND_URL=https://${SERVER_HOST}:${EXTERNAL_API_PORT}
     restart: on-failure
     volumes:
-      - ./ssl:/etc/nginx/ssl
-      - ./nginx:/etc/nginx/conf.d
+      - ./nginx/frontend:/etc/nginx/conf.d
     ports:
-      - ${EXTERNAL_FRONTEND_PORT}:443
+      - 1080:80
+    networks:
+      - nginx_net
 
+  nginx:
+    image: nginx:1.25.1-alpine3.17-slim
+    restart: on-failure
+    volumes:
+      - ./nginx/web-server/root:/var/www/html
+      - ./nginx/web-server/conf.d:/etc/nginx/conf.d
+      - ./certbot/etc:/etc/letsencrypt
+      - ./certbot/var:/var/lib/letsencrypt
+    ports:
+      - 80:80
+      - 443:443
+    depends_on:
+      - backend
+      - frontend
+    networks:
+      - nginx_net
+  
 networks:
   mongo_net:
+    driver: bridge
+  nginx_net:
     driver: bridge

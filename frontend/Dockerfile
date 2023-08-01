@@ -14,4 +14,3 @@ RUN npm run build
 FROM nginx:1.25.1-alpine3.17-slim as production
 COPY --from=builder /app/dist /usr/share/nginx/html
 RUN rm /etc/nginx/conf.d/default.conf
-EXPOSE 443
