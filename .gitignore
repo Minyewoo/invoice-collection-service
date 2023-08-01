@@ -7,4 +7,5 @@ data/
 # Environment
 ssl/
 nginx/
+certbot/
 *.env
