@@ -1,9 +1,12 @@
 import { useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import { mainPath, photoResultPath } from '@/routes/routes';
+import { setPhotoTaken } from '@/store/reducers/data.slice';
 import Camera from '@/components/camera';
 
 function CameraPage() {
     const history = useHistory();
+    const dispatch = useDispatch();
 
     return (
         <Camera
@@ -20,9 +23,8 @@ function CameraPage() {
                 canvas.getContext('2d').drawImage(video, 0, 0);
 
                 canvas.toBlob((blob) => {
-                    history.push(photoResultPath, {
-                        photo: blob,
-                    });
+                    dispatch(setPhotoTaken(blob));
+                    history.push(photoResultPath);
                 }, 'image/png');
             }}
         />

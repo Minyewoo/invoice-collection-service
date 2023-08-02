@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { pushPhoto } from '@/store/reducers/data.slice';
 import { mainPath, cameraPath } from '@/routes/routes';
 import MainLayout from '@/components/layouts/main-layout';
@@ -9,15 +9,18 @@ import styles from './photo-result-page.module.scss';
 
 function PhotoResultPage() {
     const [photo, setPhoto] = useState(null);
+    const { photoTaken } = useSelector((state) => state.data);
     const dispatch = useDispatch();
     const history = useHistory();
-    const location = useLocation();
+
+    console.log(photoTaken);
 
     useEffect(() => {
-        const url = URL.createObjectURL(location.state?.photo);
+        const url = URL.createObjectURL(photoTaken);
         setPhoto(url);
-        return () => URL.revokeObjectURL(url);
-    }, []);
+    }, [photoTaken]);
+
+    useEffect(() => () => URL.revokeObjectURL(photo), []);
 
     return (
         <MainLayout className={styles.photoResult}>
@@ -26,7 +29,7 @@ function PhotoResultPage() {
                 type="outlined"
                 className="mt-4"
                 onClick={() => {
-                    dispatch(pushPhoto(location.state?.photo));
+                    dispatch(pushPhoto(photoTaken));
                     history.push(mainPath);
                 }}
             >

@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
     photos: [],
+    photoTaken: null,
     qrText: null,
     qrResult: null,
 };
@@ -20,13 +21,19 @@ const dataSlice = createSlice({
         pushPhoto(state, action) {
             state.photos.push(action.payload);
         },
-        removePhoto(state, action) {
-            state.photos.splice(action.payload, 1);
+        setPhotoTaken(state, action) {
+            state.photoTaken = action.payload;
         },
         clearData: () => initialState,
     },
 });
 
-export const { setQrText, setQrResult, pushPhoto, removePhoto, clearData } =
-    dataSlice.actions;
+export const {
+    setQrText,
+    setQrResult,
+    pushPhoto,
+    removePhoto,
+    clearData,
+    setPhotoTaken,
+} = dataSlice.actions;
 export default dataSlice.reducer;
