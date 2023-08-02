@@ -8,4 +8,5 @@ data/
 ssl/
 nginx/
 certbot/
+dhparam/
 *.env
