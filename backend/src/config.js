@@ -3,8 +3,6 @@ exports.config = {
 		host: process.env.HOST ?? '0.0.0.0',
 		port: parseInt(process.env.PORT) || 8080,
 		staticPath: process.env.STATIC_PATH ?? 'public',
-		certPath: process.env.CERT_PATH ?? './ssl/express-selfsigned.crt',
-		certKeyPath: process.env.CERT_KEY_PATH ?? './ssl/express-selfsigned.key',
 	},
 	db: {
 		name: process.env.DB_NAME ?? 'example',
