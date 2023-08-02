@@ -48,7 +48,8 @@ services:
       args:
         - INVOICE_DATA_API_URL=${INVOICE_DATA_API_URL}
         - INVOICE_DATA_API_TOKEN=${INVOICE_DATA_API_TOKEN}
-        - BACKEND_URL=https://${SERVER_HOST}:${EXTERNAL_API_PORT}
+        - BACKEND_URL=https://${SERVER_HOST}/api/v1
+        - BASE_LOCATION=/invoice-collection
     restart: on-failure
     volumes:
       - ./nginx/frontend:/etc/nginx/conf.d
@@ -65,6 +66,7 @@ services:
       - ./nginx/web-server/conf.d:/etc/nginx/conf.d
       - ./certbot/etc:/etc/letsencrypt
       - ./certbot/var:/var/lib/letsencrypt
+      - ./dhparam:/etc/ssl/certs
     ports:
       - 80:80
       - 443:443
@@ -73,6 +75,16 @@ services:
       - frontend
     networks:
       - nginx_net
+  
+  certbot:
+    image: certbot/certbot:v2.6.0
+    volumes:
+      - ./nginx/web-server/root:/var/www/html
+      - ./certbot/etc:/etc/letsencrypt
+      - ./certbot/var:/var/lib/letsencrypt
+    depends_on:
+      - nginx
+    command: certonly --webroot --webroot-path=/var/www/html --email nyaneet@icloud.com --agree-tos --no-eff-email --force-renewal -d cyberbruhers.xyz -d www.cyberbruhers.xyz
   
 networks:
   mongo_net:
