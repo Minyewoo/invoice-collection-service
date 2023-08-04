@@ -31,9 +31,19 @@
     justify-content: space-around;
     align-items: center;
 
-    & > .qrButton {
-        display: flex;
+    & > .mainButton {
         font-size: 64px;
+    }
+
+    & > .sideButton {
+        font-size: 24px;
+    }
+
+    & > * {
+        display: flex;
+        justify-content: center;
+        flex-grow: 1;
+        flex-basis: 0;
     }
 }
 
