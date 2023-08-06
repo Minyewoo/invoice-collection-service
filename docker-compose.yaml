@@ -31,11 +31,8 @@ services:
     restart: on-failure
     volumes:
       - ./data/images:/app/public
-      - ./ssl:/app/ssl
     depends_on:
       - mongo
-    ports:
-      - ${EXTERNAL_API_PORT}:8080
     networks:
       - mongo_net
       - nginx_net
@@ -53,8 +50,6 @@ services:
     restart: on-failure
     volumes:
       - ./nginx/frontend:/etc/nginx/conf.d
-    ports:
-      - 1080:80
     networks:
       - nginx_net
 
