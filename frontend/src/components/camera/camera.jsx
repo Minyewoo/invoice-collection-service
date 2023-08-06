@@ -7,6 +7,7 @@ import {
     RiFlashlightFill,
     RiFlashlightLine,
     RiImage2Fill,
+    RiCameraLine,
 } from 'react-icons/ri';
 import Button from '@/components/UI/button';
 import styles from './camera.module.scss';
@@ -35,7 +36,14 @@ function BottomControls({ children, className }) {
     );
 }
 
-function Camera({ className, type = 'qr-scaner', onQrScan, onShoot, onClose }) {
+function Camera({
+    className,
+    type = 'qr-scaner',
+    onQrScan,
+    onShoot,
+    onClose,
+    onFileSelect,
+}) {
     const {
         ref,
         videoTrack,
@@ -55,7 +63,6 @@ function Camera({ className, type = 'qr-scaner', onQrScan, onShoot, onClose }) {
                 frameRate: 60,
             });
         }
-        console.log(isFrameRateAvailable);
     }, [videoTrack]);
 
     const onShootHandler = () => onShoot && onShoot({ video: ref.current });
@@ -75,6 +82,28 @@ function Camera({ className, type = 'qr-scaner', onQrScan, onShoot, onClose }) {
                         className="ml-1"
                         text="Point your camera at a QR code"
                     />
+                )}
+                {onFileSelect !== undefined && (
+                    <label
+                        className={classNames(
+                            {
+                                [styles.disabled]: onFileSelect === undefined,
+                            },
+                            styles.cameraAppButton,
+                            styles.galleryButton,
+                            'p-4'
+                        )}
+                        htmlFor="camera-app"
+                    >
+                        <input
+                            id="camera-app"
+                            type="file"
+                            accept="image/*"
+                            capture="user"
+                            onChange={onFileSelect}
+                        />
+                        <RiCameraLine />
+                    </label>
                 )}
             </TopControls>
             <video ref={ref} />
@@ -106,9 +135,24 @@ function Camera({ className, type = 'qr-scaner', onQrScan, onShoot, onClose }) {
                             <MdCircle />
                         </Button>
                     )}
-                    <Button className={styles.sideButton} type="text" disabled>
+                    <label
+                        className={classNames(
+                            {
+                                [styles.disabled]: onFileSelect === undefined,
+                            },
+                            styles.sideButton,
+                            styles.galleryButton
+                        )}
+                        htmlFor="camera-app"
+                    >
+                        <input
+                            id="camera-app"
+                            type="file"
+                            accept="image/*"
+                            onChange={onFileSelect}
+                        />
                         <RiImage2Fill />
-                    </Button>
+                    </label>
                 </BottomControls>
             )}
         </div>

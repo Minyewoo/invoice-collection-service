@@ -13,8 +13,6 @@ function PhotoResultPage() {
     const dispatch = useDispatch();
     const history = useHistory();
 
-    console.log(photoTaken);
-
     useEffect(() => {
         const url = URL.createObjectURL(photoTaken);
         setPhoto(url);

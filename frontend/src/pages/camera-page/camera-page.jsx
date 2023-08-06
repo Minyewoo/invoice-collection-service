@@ -8,6 +8,11 @@ function CameraPage() {
     const history = useHistory();
     const dispatch = useDispatch();
 
+    const handlePhoto = (blob) => {
+        dispatch(setPhotoTaken(blob));
+        history.push(photoResultPath);
+    };
+
     return (
         <Camera
             type="camera"
@@ -23,9 +28,13 @@ function CameraPage() {
                 canvas.getContext('2d').drawImage(video, 0, 0);
 
                 canvas.toBlob((blob) => {
-                    dispatch(setPhotoTaken(blob));
-                    history.push(photoResultPath);
+                    handlePhoto(blob);
                 }, 'image/png');
+            }}
+            onFileSelect={(event) => {
+                const { files } = event.target;
+                if (!files || !files?.length) return;
+                handlePhoto(files[0]);
             }}
         />
     );

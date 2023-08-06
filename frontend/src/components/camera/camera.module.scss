@@ -36,6 +36,7 @@
     }
 
     & > .sideButton {
+        padding: 24px 0;
         font-size: 24px;
     }
 
@@ -53,4 +54,30 @@
     font-size: var(--font-size-lg);
     font-weight: bold;
     border-radius: 8px;
+}
+
+.galleryButton,
+.cameraAppButton {
+    position: relative;
+    cursor: pointer;
+
+    &.disabled {
+        pointer-events: none;
+        opacity: 0.5;
+    }
+
+    & > input {
+        position: absolute;
+        z-index: -1;
+        opacity: 0;
+        display: block;
+        width: 0;
+        height: 0;
+    }
+}
+
+.cameraAppButton {
+    font-size: 32px;
+    display: flex;
+    justify-content: center;
 }
