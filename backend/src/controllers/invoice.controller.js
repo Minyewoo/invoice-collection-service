@@ -11,7 +11,7 @@ const { staticPath: STATIC_PATH } = config.app;
 const FILES_PATH = 'uploads';
 const ALLOWED_FILE_EXTENSIONS = ['image/png', 'image/jpeg'];
 const LIMIT_FILES_COUNT = 5;
-const LIMIT_FILE_SIZE = 10 * 1024 * 1024; // max size in bytes
+const LIMIT_FILE_SIZE = 20 * 1024 * 1024; // max size in bytes
 
 const fileFilter = (req, file, cb) => {
 	if (!ALLOWED_FILE_EXTENSIONS.includes(file.mimetype)) {
