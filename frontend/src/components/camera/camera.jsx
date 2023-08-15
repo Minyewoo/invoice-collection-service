@@ -143,10 +143,10 @@ function Camera({
                             styles.sideButton,
                             styles.galleryButton
                         )}
-                        htmlFor="camera-app"
+                        htmlFor="explorer-app"
                     >
                         <input
-                            id="camera-app"
+                            id="explorer-app"
                             type="file"
                             accept="image/*"
                             onChange={onFileSelect}
